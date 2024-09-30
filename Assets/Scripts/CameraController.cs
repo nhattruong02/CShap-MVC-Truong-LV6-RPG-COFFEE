@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-/*    public Transform target;
-*/
+    public Transform target;
+
     public Vector3 offset;
 
     private float currentZoom = 10f;
@@ -25,9 +25,9 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-/*        transform.position = target.position - offset * currentZoom;
+        transform.position = target.position - offset * currentZoom;
 
-        transform.LookAt(target.position + Vector3.up * pitch);*/
+        transform.LookAt(target.position + Vector3.up * pitch);
     }
 
     // Start is called before the first frame update
@@ -47,6 +47,6 @@ public class CameraController : MonoBehaviour
         currentYaw -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
 
         // Rotate by angle
-/*        transform.RotateAround(target.position, Vector3.up, currentYaw);*/
+        transform.RotateAround(target.position, Vector3.up, currentYaw);
     }
 }

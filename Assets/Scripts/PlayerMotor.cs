@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +8,7 @@ using UnityEngine.AI;
 public class PlayerMotor : MonoBehaviour
 {
 
-/*    Transform targer;*/
+    Transform targer;
     NavMeshAgent agent;
     void Start()
     {
@@ -16,5 +17,14 @@ public class PlayerMotor : MonoBehaviour
     public void MoveToPoint(Vector3 point)
     {
         agent.SetDestination(point);
+    }
+
+    public bool EndOfPath()
+    {
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)       
+        {
+            return true;
+        }
+        return false;
     }
 }
