@@ -13,12 +13,16 @@ public class Interactable : MonoBehaviour
     bool isFocus = false;
     Transform player;
 
+    BoxCollider chairCollider;
     bool hasInteracted = false;
 
     public bool isEmpty = true;
 
     public bool IsEmpty {  get => isEmpty; private set => isEmpty = value; }
-
+    private void Start()
+    {
+        chairCollider = this.gameObject.GetComponent<BoxCollider>();
+    }
     private void Update()
     {
         if (isFocus && !hasInteracted)
@@ -50,14 +54,16 @@ public class Interactable : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactionTransform.position, radius);
     }
-
-/*    private void OnTriggerEnter(Collider other)
+    
+    public void checkIsEmpty(bool isEmpty)
     {
-        isEmpty = false;
+        if (!isEmpty)
+        {
+            chairCollider.enabled = false;
+        }
+        else
+        {
+            chairCollider.enabled = true;
+        }
     }
-    private void OnTriggerExit(Collider other)
-    {
-            isEmpty = true;
-
-    }*/
 }

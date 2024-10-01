@@ -15,12 +15,16 @@ public class PlayerController : MonoBehaviour
     PlayerMotor motor;
     bool isMove = true;
     bool isSitting;
-
+    Interactable interactable;
+    Collider collider;
+    
     void Start()
     {
         cam = Camera.main;
         motor = GetComponent<PlayerMotor>();
         anim = GetComponent<CharacterAnimation>();
+        collider = GetComponent<Collider>();
+       
     }
 
     // Update is called once per frame
@@ -46,12 +50,13 @@ public class PlayerController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 100))
                 {
-                    Interactable interactable = hit.collider.GetComponent<Interactable>();
+                    interactable = hit.collider.GetComponent<Interactable>();
                     if (interactable != null)
                     {
+                        isMove = false;
                         SetFocus(interactable);
                         motor.MoveToPoint(interactable.interactionTransform.position);
-                        StartCoroutine(SitDown(interactable));
+                        StartCoroutine(SitDown());
                     }
                 }
 
@@ -72,12 +77,13 @@ public class PlayerController : MonoBehaviour
         newFocus.OnFocused(transform);
     }
 
-    IEnumerator SitDown(Interactable interactable)
+    IEnumerator SitDown()
     {
         yield return new WaitUntil(() => motor.EndOfPath() == true);
+        interactable.checkIsEmpty(false);
+        this.collider.enabled = false;
         this.transform.rotation = interactable.interactionTransform.rotation;
         anim.SitDown(true);
-        isMove = false;
         isSitting = true;
     }
 
@@ -85,9 +91,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isSitting)
         {
+            this.collider.enabled = true;
+            interactable.checkIsEmpty(true);
             anim.SitDown(false);
             anim.StandUp(true);
             isMove = true;
+            isSitting = false;
         }
     }
 }

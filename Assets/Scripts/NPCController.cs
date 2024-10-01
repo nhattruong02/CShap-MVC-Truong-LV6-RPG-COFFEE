@@ -14,8 +14,9 @@ public class NPCController : MonoBehaviour
     public float waitTime = 2f;
     private float timer;
     bool isMove = true;
-    bool isSitting;
-
+    /*    bool isSitting;
+    */
+    Interactable interactable;
     void Start()
     {
         motor = GetComponent<PlayerMotor>();
@@ -67,25 +68,17 @@ public class NPCController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        Interactable interactable = collider.GetComponent<Interactable>();
-      
+        interactable = collider.GetComponent<Interactable>();
         if (collider.gameObject.CompareTag(Common.Chair))
         {
-            collider.enabled = false;
+            interactable.checkIsEmpty(false);
             isMove = false;
             motor.MoveToPoint(interactable.interactionTransform.position);
             StartCoroutine(SitDown(interactable));
         }
     }
 
-    private void OnTriggerExit(Collider collider)
-    {
-        collider.enabled = true;
-        if (collider.gameObject.CompareTag(Common.Chair))
-        {
-            collider.enabled = true;
-        }
-    }
+
 
 
     IEnumerator SitDown(Interactable interactable)
@@ -93,18 +86,16 @@ public class NPCController : MonoBehaviour
         yield return new WaitUntil(() => motor.EndOfPath() == true);
         this.transform.rotation = interactable.interactionTransform.rotation;
         anim.SitDown(true);
-        isSitting = true;
+        /*        isSitting = true;*/
         StartCoroutine(StandUp());
     }
 
     IEnumerator StandUp()
     {
         yield return new WaitForSeconds(5);
-        if (isSitting)
-        {
-            anim.SitDown(false);
-            anim.StandUp(true);
-            isMove = true;
-        }
+        anim.StandUp(true);
+        anim.SitDown(false);
+        interactable.checkIsEmpty(true);
+        isMove = true;
     }
 }
