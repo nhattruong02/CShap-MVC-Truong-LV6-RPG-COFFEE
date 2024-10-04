@@ -25,6 +25,12 @@ public class CharacterAnimation : MonoBehaviour
         speedPercent = agent.velocity.magnitude / agent.speed;
         animator.SetFloat(Common.speedPercent, speedPercent, locomationAnimationSmoothTime, Time.deltaTime);
     }
+
+    public void MoveJoyStick(float speed)
+    {
+        animator.SetFloat(Common.speedPercent, speed);
+    }
+
     public void SitDown(bool isSitDown)
     {
         animator.SetBool(Common.sitDown, isSitDown);

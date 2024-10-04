@@ -14,6 +14,7 @@ public class Interactable : MonoBehaviour
     Transform player;
 
     BoxCollider chairCollider;
+
     bool hasInteracted = false;
 
     public bool isEmpty = true;
@@ -31,9 +32,12 @@ public class Interactable : MonoBehaviour
             if (distance <= radius)
             {
                 hasInteracted = true;
+              
             }
         }
     }
+
+
 
     public void OnFocused(Transform playerTransform)
     {

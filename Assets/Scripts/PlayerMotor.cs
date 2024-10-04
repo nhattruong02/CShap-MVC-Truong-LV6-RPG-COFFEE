@@ -10,18 +10,21 @@ public class PlayerMotor : MonoBehaviour
 
     Transform targer;
     NavMeshAgent agent;
+
+    public NavMeshAgent Agent { get => agent; set => agent = value; }
+
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<NavMeshAgent>();
     }
     public void MoveToPoint(Vector3 point)
     {
-        agent.SetDestination(point);
+        Agent.SetDestination(point);
     }
 
     public bool EndOfPath()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)       
+        if (!Agent.pathPending && Agent.remainingDistance <= Agent.stoppingDistance)       
         {
             return true;
         }
